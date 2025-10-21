@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quiz: Migração e Segurança na Europa (9º Ano)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #eef2f7 0%, #d1d9e6 100%);
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .quiz-container {
+    background: #fff;
+    border-radius: 12px;
+    max-width: 700px;
+    width: 100%;
+    padding: 30px 40px 40px 40px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+    text-align: center;
+  }
+  h1 {
+    margin-bottom: 25px;
+    color: #333;
+    font-weight: 700;
+  }
+  .question-number {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  .question-text {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #222;
+    min-height: 70px;
+  }
+  .question-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  }
+  ul.options-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 25px 0;
+  }
+  ul.options-list li {
+    margin-bottom: 12px;
+  }
+  ul.options-list li label {
+    cursor: pointer;
+    display: block;
+    padding: 14px 20px;
+    background: #f7f9fc;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    transition: 0.3s ease;
+    user-select: none;
+    color: #444;
+    font-size: 1.1rem;
+  }
+  ul.options-list li input[type="radio"] {
+    display: none;
+  }
+  ul.options-list li input[type="radio"]:checked + label {
+    border-color: #2563eb;
+    background: #dbeafe;
+    color: #1e40af;
+    font-weight: 700;
+  }
+  ul.options-list li label:hover {
+    background: #e0e7ff;
+  }
+  button#submit-btn {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 16px 0;
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button#submit-btn:hover:not(:disabled) {
+    background-color: #1e40af;
+  }
+  button#submit-btn:disabled {
+    background-color: #a5b4fc;
+    cursor: not-allowed;
+  }
+  .feedback {
+    margin-top: 15px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    min-height: 40px;
+  }
+  .feedback.correct {
+    color: #16a34a;
+  }
+  .feedback.wrong {
+    color: #dc2626;
+  }
+  .final-result {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 20px;
+    color: #222;
+  }
+  .final-message {
+    font-size: 1.2rem;
+    margin-top: 12px;
+    color: #555;
+  }
+  .score-display {
+    margin-top: 10px;
+    font-weight: 600;
+    color: #444;
+  }
+  /* Responsive */
+  @media (max-width: 480px) {
+    .quiz-container {
+      padding: 25px 20px 35px 20px;
+    }
+    .question-text {
+      font-size: 1.2rem;
+      min-height: auto;
+    }
+    button#submit-btn {
+      font-size: 1rem;
+      padding: 14px 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="quiz-container" id="quiz-container">
+  <h1>Quiz: Migração e Segurança na Europa</h1>
+  <div id="quiz-content">
+    <!-- Pergunta aparecerá aqui -->
+  </div>
+  <button id="submit-btn" disabled>Enviar Resposta</button>
+  <div class="feedback" id="feedback"></div>
+</div>
+
+<script>
+  const quizData = [
+    {
+      question: "O que significa o termo 'migração' na Europa?",
+      options: [
+        "Movimento de pessoas entre países buscando melhores condições de vida",
+        "Turismo dentro dos países europeus",
+        "Exportação de produtos agrícolas",
+        "Mobilização de tropas militares"
+      ],
+      answer: 0,
+      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      question: "Qual é a agência da União Europeia responsável pela proteção das fronteiras externas?",
+      options: [
+        "Interpol",
+        "Europol",
+        "Frontex",
+        "UNHCR"
+      ],
+      answer: 2,
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Frontex_logo.svg/2560px-Frontex_logo.svg.png"
+    },
+    {
+      question: "Quais são os principais riscos de segurança ligados à migração na Europa?",
+      options: [
+        "Terrorismo, tráfico de pessoas e aumento da criminalidade organizada",
+        "Crescimento da indústria tecnológica",
+        "Melhorias no sistema educacional",
+        "Expansão da agricultura"
+      ],
+      answer: 0,
+      image: "https://images.unsplash.com/photo-1573164574236-7c27e4a4d2ef?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      question: "Durante a crise migratória de 2015, qual país europeu recebeu mais refugiados?",
+      options: [
+        "Alemanha",
+        "França",
+        "Itália",
+        "Polônia"
+      ],
+      answer: 0,
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Angela_Merkel_2014.jpg/440px-Angela_Merkel_2014.jpg"
+    },
+    {
+      question: "O que é a política de asilo na União Europeia?",
+      options: [
+        "Medidas para expulsar todos os migrantes",
+        "Direitos e proteção para refugiados e requerentes de asilo",
+        "Proibição total da entrada de pessoas",
+        "Controle apenas das fronteiras terrestres"
+      ],
+      answer: 1,
+      image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      question: "Qual o impacto da migração na segurança social dos países europeus?",
+      options: [
+        "Aumento da diversidade cultural e desafios na integração social",
+        "Redução da criminalidade",
+        "Diminuição da economia local",
+        "Nenhum impacto"
+      ],
+      answer: 0,
+      image: "https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      question: "Quais medidas a Europa adotou para melhorar a segurança nas fronteiras?",
+      options: [
+        "Construção de muros e uso de tecnologia avançada",
+        "Proibição de qualquer passagem de pessoas",
+        "Abertura total das fronteiras sem controle",
+        "Nenhuma medida específica"
+      ],
+      answer: 0,
+      image: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      question: "O que a integração social dos migrantes contribui para os países europeus?",
+      options: [
+        "Conflitos constantes e segregação",
+        "Crescimento econômico e fortalecimento cultural",
+        "Isolamento das comunidades migrantes",
+        "Aumento do desemprego apenas"
+      ],
+      answer: 1,
+      image: "https://images.unsplash.com/photo-1520975912648-b978f6b9e691?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      question: "Qual é o papel do acolhimento humanitário na gestão migratória europeia?",
+      options: [
+        "Negar direitos básicos aos refugiados",
+        "Garantir proteção e assistência para pessoas vulneráveis",
+        "Restringir acesso à educação e saúde",
+        "Desalojar comunidades migrantes"
+      ],
+      answer: 1,
+      image: "https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      question: "Como a migração pode influenciar a segurança econômica da Europa?",
+      options: [
+        "Aumentando a mão de obra e fomentando mercados locais",
+        "Diminuindo o consumo interno",
+        "Reduzindo o PIB de todos os países",
+        "Nenhuma influência"
+      ],
+      answer: 0,
+      image: "https://images.unsplash.com/photo-1486308510493-cb94d88f0b25?auto=format&fit=crop&w=700&q=80"
+    }
+  ];
+
+  const quizContainer = document.getElementById('quiz-content');
+  const submitBtn = document.getElementById('submit-btn');
+  const feedbackEl = document.getElementById('feedback');
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+  let answered = false;
+
+  function loadQuestion() {
+    answered = false;
+    feedbackEl.textContent = '';
+    feedbackEl.className = 'feedback';
+
+    const q = quizData[currentQuestionIndex];
+    let optionsHtml = '';
+    q.options.forEach((option, idx) => {
+      optionsHtml += `
+        <li>
+          <input type="radio" id="option${idx}" name="option" value="${idx}">
+          <label for="option${idx}">${option}</label>
+        </li>`;
+    });
+
+    quizContainer.innerHTML = `
+      <div class="question-number">Pergunta ${currentQuestionIndex + 1} de ${quizData.length}</div>
+      <div class="question-text">${q.question}</div>
+      <img src="${q.image}" alt="Imagem da pergunta" class="question-image" />
+      <ul class="options-list">${optionsHtml}</ul>
+    `;
+
+    submitBtn.textContent = "Enviar Resposta";
+    submitBtn.disabled = true;
+
+    // Adicionar evento para habilitar botão ao selecionar resposta
+    const options = document.querySelectorAll('input[name="option"]');
+    options.forEach(option => {
+      option.addEventListener('change', () => {
+        submitBtn.disabled = false;
+      });
+    });
+  }
+
+  function showFeedback(isCorrect) {
+    if(isCorrect) {
+      feedbackEl.textContent = "Resposta correta! 🎉";
+      feedbackEl.classList.add('correct');
+    } else {
+      const correctAnswerText = quizData[currentQuestionIndex].options[quizData[currentQuestionIndex].answer];
+      feedbackEl.innerHTML = `Resposta errada! ❌<br>Resposta correta: <strong>${correctAnswerText}</strong>`;
+      feedbackEl.classList.add('wrong');
+    }
+  }
+
+  submitBtn.addEventListener('click', () => {
+    if (answered === false) {
+      // Enviar resposta
+      const selectedOption = document.querySelector('input[name="option"]:checked');
+      if (!selectedOption) {
+        alert("Por favor, selecione uma opção antes de enviar.");
+        return;
+      }
+      const selectedValue = parseInt(selectedOption.value);
+      const correctAnswer = quizData[currentQuestionIndex].answer;
+
+      if (selectedValue === correctAnswer) {
+        score++;
+        showFeedback(true);
+      } else {
+        showFeedback(false);
+      }
+      answered = true;
+      submitBtn.textContent = (currentQuestionIndex === quizData.length - 1) ? "Ver Resultado" : "Próxima Pergunta";
+      submitBtn.disabled = false;
+
+      // Bloquear opções após responder
+      document.querySelectorAll('input[name="option"]').forEach(input => {
+        input.disabled = true;
+      });
+
+    } else {
+      // Próxima pergunta ou resultado
+      if (currentQuestionIndex < quizData.length - 1) {
+        currentQuestionIndex++;
+        loadQuestion();
+      } else {
+        showFinalResult();
+      }
+    }
+  });
+
+  function showFinalResult() {
+    quizContainer.innerHTML = '';
+    submitBtn.style.display = 'none';
+    feedbackEl.className = 'final-result';
+
+    let message = '';
+    let color = '';
+    if(score >= 6) {
+      message = 'Parabéns! Você acertou muitas perguntas e tem um ótimo conhecimento sobre migração e segurança na Europa.';
+      color = '#16a34a'; // verde
+    } else if(score >=4) {
+      message = 'Bom esforço! Mas é recomendável estudar um pouco mais para melhorar seu conhecimento.';
+      color = '#ca8a04'; // amarelo/laranja
+    } else {
+      message = 'Você precisa se dedicar mais aos estudos sobre migração e segurança na Europa. Tente novamente!';
+      color = '#dc2626'; // vermelho
+    }
+
+    feedbackEl.style.color = color;
+    feedbackEl.innerHTML = `
+      Você acertou <strong>${score}</strong> de <strong>${quizData.length}</strong> perguntas.<br>
+      <span class="final-message">${message}</span>
+    `;
+
+    // Botão reiniciar
+    const restartBtn = document.createElement('button');
+    restartBtn.textContent = "Refazer Quiz";
+    restartBtn.style.marginTop = '25px';
+    restartBtn.style.backgroundColor = color;
+    restartBtn.style.color = '#fff';
+    restartBtn.style.border = 'none';
+    restartBtn.style.padding = '14px 0';
+    restartBtn.style.fontSize = '1.1rem';
+    restartBtn.style.fontWeight = '700';
+    restartBtn.style.borderRadius = '12px';
+    restartBtn.style.cursor = 'pointer';
+    restartBtn.style.width = '100%';
+    restartBtn.style.boxShadow = '0 6px 14px rgba(0,0,0,0.15)';
+    restartBtn.addEventListener('mouseenter', () => restartBtn.style.opacity = '0.85');
+    restartBtn.addEventListener('mouseleave', () => restartBtn.style.opacity = '1');
+
+    restartBtn.addEventListener('click', () => {
+      currentQuestionIndex = 0;
+      score = 0;
+      feedbackEl.className = 'feedback';
+      feedbackEl.style.color = '#000';
+      submitBtn.style.display = 'inline-block';
+      loadQuestion();
+      submitBtn.textContent = 'Enviar Resposta';
+      submitBtn.disabled = true;
+      restartBtn.remove();
+    });
+
+    document.getElementById('quiz-container').appendChild(restartBtn);
+  }
+
+  // Inicia quiz
+  loadQuestion();
+</script>
+
+</body>
+</html>
